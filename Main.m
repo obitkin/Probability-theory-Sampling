@@ -3,7 +3,48 @@ size50 = 50;
 size1000 = 1000; 
 odin = 1/(2^(0.5));
 x = -4:0.1:4;
+g1 = repmat({'100'},100,1);
+g2 = repmat({'20'},20,1);
+grp = [g1; g2];
+rng default  % For reproducibility
 
+n20 = normrnd(0,1,[1,20]);
+n100 = normrnd(0,1,[1,100]);
+boxNorm = [n100 n20];
+figure;
+boxplot(boxNorm,grp);
+title("Нормальное")
+
+c20 = trnd(1,1,20);
+c100 = trnd(1,1,100);
+boxCaushy = [c100 c20];
+figure;
+boxplot(boxCaushy,grp);
+title("Коши")
+
+l20 = laprnd(20);
+l100 = laprnd(100);
+boxLap = [l100 l20];
+figure;
+boxplot(boxLap,grp);
+title("Лаплас")
+
+p20 = poissrnd(10,1,20);
+p100 = poissrnd(10,1,100);
+boxPoiss = [p100 p20];
+figure;
+boxplot(boxPoiss,grp);
+title("Пуассон")
+
+u20 = unifrnd(-sqrt(3),sqrt(3),1,20);
+u100 = unifrnd(-sqrt(3),sqrt(3),1,100);
+boxUnif = [u100 u20];
+figure;
+boxplot(boxUnif,grp);
+title("Равномерное")
+
+
+%{
 array = [10 100 1000];
 
 for i = 1:3 
@@ -27,6 +68,7 @@ for i = 1:3
     for k = 1:5
         disp(srendee(k))
     end
+    disp("---------------------------");
     for k = 1:5
         disp(D(k))
     end
@@ -121,7 +163,7 @@ for i = 1:3
     Z_q = [];
     Z_tr = [];
     for j = 1:1000
-        vyborka = sort(unifrnd(-sqrt(3),sqrt(3),array(i)));
+        vyborka = sort(unifrnd(-sqrt(3),sqrt(3),1,array(i)));
         Aver = [Aver average(vyborka)];
         Med = [Med median(vyborka)];
         Z_r = [Z_r halfExtremumSum(vyborka)];
@@ -140,6 +182,7 @@ for i = 1:3
         disp(D(k))
     end
 end
+%}
 %{
 
 n1 = normrnd(0,1,[1,size10]);
@@ -227,9 +270,9 @@ plot(x4,poisspdf(x4,10));
 
 x5 = -3:0.05:3;
 
-r1 = unifrnd(-sqrt(3),sqrt(3),size10);
-r2 = unifrnd(-sqrt(3),sqrt(3),size50);
-r3 = unifrnd(-sqrt(3),sqrt(3),size1000);
+r1 = unifrnd(-sqrt(3),sqrt(3),1,size10);
+r2 = unifrnd(-sqrt(3),sqrt(3),1,size50);
+r3 = unifrnd(-sqrt(3),sqrt(3),1,size1000);
 
 figure;
 histogram(r1,10,'Normalization','pdf'); grid on; ylabel('density');
