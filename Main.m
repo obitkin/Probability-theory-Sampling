@@ -4,6 +4,140 @@ size1000 = 1000;
 odin = 1/(2^(0.5));
 x = -4:0.1:4;
 
+norm20 = normrnd(0,1,[1,20]);
+norm60 = normrnd(0,1,[1,60]);
+norm100 = normrnd(0,1,[1,100]);
+x4 = -4:0.01:4;
+
+vyb = norm20;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,normcdf(x4,0,1));
+hold on;
+line([max(vyb),4],[1,1]);
+line([-4,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция нормального распределения N = 20');
+
+vyb = norm60;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,normcdf(x4,0,1));
+hold on;
+line([max(vyb),4],[1,1]);
+line([-4,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция нормального распределения N = 60');
+
+vyb = norm100;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,normcdf(x4,0,1));
+hold on;
+line([max(vyb),4],[1,1]);
+line([-4,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция нормального распределения N = 100');
+
+cau20 = trnd(1,1,20);
+cau60 = trnd(1,1,60);
+cau100 = trnd(1,1,100);
+
+vyb = cau20;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,tcdf(x4,1));
+hold on;
+line([max(vyb),4],[1,1]);
+line([-4,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция распределения Коши N = 20');
+
+vyb = cau60;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,tcdf(x4,1));
+hold on;
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция распределения Коши N = 100');
+
+vyb = cau100;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,tcdf(x4,1));
+hold on;
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция распределения Коши N = 100');
+
+lap20 = laprnd(20);
+lap60 = laprnd(60);
+lap100 = laprnd(100);
+
+vyb = lap20;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,lapcdf(x4,odin,0));
+hold on;
+line([max(vyb),4],[1,1]);
+line([-4,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция распределения Лапласа N = 20');
+
+vyb = lap60;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,lapcdf(x4,odin,0));
+hold on;
+line([max(vyb),4],[1,1]);
+line([-4,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция распределения Лапласа N = 60');
+
+vyb = lap100;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,lapcdf(x4,odin,0));
+hold on;
+line([max(vyb),4],[1,1]);
+line([-4,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция распределения Лапласа N = 100');
+
+poiss20 = poissrnd(10,1,20);
+poiss60 = poissrnd(10,1,60);
+poiss100 = poissrnd(10,1,100);
+
+vyb = poiss20;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,poisscdf(x4,10));
+hold on;
+line([max(vyb),4],[1,1]);
+line([-4,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция распределения Пуассона N = 20');
+
+%{
 NormX1 = -2.698;
 NormX2 = 2.698;
 CaushyX1 = -4;
@@ -72,7 +206,7 @@ disp(average(percentOutline100));
 g1 = repmat({'100'},100,1);
 g2 = repmat({'20'},20,1);
 grp = [g1; g2];
-rng default  % For reproducibility
+%rng default  % For reproducibility
 n20 = normrnd(0,1,[1,20]);
 n100 = normrnd(0,1,[1,100]);
 boxNorm = [n100 n20];
@@ -107,7 +241,7 @@ boxUnif = [u100 u20];
 figure;
 boxplot(boxUnif,grp);
 title("Равномерное")
-
+%}
 %{
 array = [10 100 1000];
 
@@ -332,7 +466,7 @@ figure;
 histogram(p3,edges,'Normalization','pdf'); grid on; ylabel('density');
 hold on;
 plot(x4,poisspdf(x4,10));
-%}
+
 x5 = -3:0.05:3;
 
 r1 = unifrnd(-sqrt(3),sqrt(3),1,size10);
@@ -353,10 +487,24 @@ figure;
 histogram(r3,30,'Normalization','pdf'); grid on; ylabel('density');
 hold on;
 plot(x5,unifpdf(x5,-sqrt(3),sqrt(3)));
-
+%}
 
 function znach = lappdf(x, a, b)
     znach = (a/2)*exp(-a*abs(x-b));
+end
+
+function znach = lapcdf(x, a, b)
+sz = size(x);
+sz = sz(2);
+res = [];
+for i = 1:sz
+    if (x(i) < b)
+        res = [res (1/2)*exp(a*(x(i)-b))];
+    else
+        res = [res 1-(1/2)*exp((-a)*(x(i)-b))];
+    end
+end
+znach = res;
 end
 
 function res = laprnd(size)
