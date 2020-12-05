@@ -20,7 +20,6 @@ line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция нормального распределения N = 20');
 
 vyb = norm60;
 figure;
@@ -32,7 +31,6 @@ line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция нормального распределения N = 60');
 
 vyb = norm100;
 figure;
@@ -44,8 +42,81 @@ line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция нормального распределения N = 100');
 
+
+figure;
+plot(x4,plotnost(x4, norm20, 0.5));
+hold on;
+plot(x4,normpdf(x4));
+ylabel("f(x)");
+xlabel("x");
+%title('Функция плотности нормального распределения, N = 20, h = h_n/2');
+
+figure;
+plot(x4,plotnost(x4, norm20, 1));
+hold on;
+plot(x4,normpdf(x4));
+ylabel("f(x)");
+xlabel("x");
+%title('Функция плотности нормального распределения, N = 20, h = h_n');
+
+figure;
+plot(x4,plotnost(x4, norm20, 2));
+hold on;
+plot(x4,normpdf(x4));
+ylabel("f(x)");
+xlabel("x");
+%title('Функция плотности нормального распределения, N = 20, h = 2h_n');
+
+figure;
+plot(x4,plotnost(x4, norm60, 0.5));
+hold on;
+plot(x4,normpdf(x4));
+ylabel("f(x)");
+xlabel("x");
+%title('Функция плотности нормального распределения, N = 60, h = h_n/2');
+
+figure;
+plot(x4,plotnost(x4, norm60, 1));
+hold on;
+plot(x4,normpdf(x4));
+ylabel("f(x)");
+xlabel("x");
+%title('Функция плотности нормального распределения, N = 60, h = h_n');
+
+figure;
+plot(x4,plotnost(x4, norm60, 2));
+hold on;
+plot(x4,normpdf(x4));
+ylabel("f(x)");
+xlabel("x");
+%title('Функция плотности нормального распределения, N = 60, h = 2h_n');
+
+figure;
+plot(x4,plotnost(x4, norm100, 0.5));
+hold on;
+plot(x4,normpdf(x4));
+ylabel("f(x)");
+xlabel("x");
+%title('Функция плотности нормального распределения, N = 100, h = h_n/2');
+
+figure;
+plot(x4,plotnost(x4, norm100, 1));
+hold on;
+plot(x4,normpdf(x4));
+ylabel("f(x)");
+xlabel("x");
+%title('Функция плотности нормального распределения, N = 100, h = h_n');
+
+figure;
+plot(x4,plotnost(x4, norm100, 2));
+hold on;
+plot(x4,normpdf(x4));
+ylabel("f(x)");
+xlabel("x");
+%title('Функция плотности нормального распределения, N = 100, h = 2h_n');
+%}
+%{
 cau20 = trnd(1,1,20);
 cau60 = trnd(1,1,60);
 cau100 = trnd(1,1,100);
@@ -60,7 +131,7 @@ line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция распределения Коши N = 20');
+%title('Функция распределения Коши N = 20');
 
 vyb = cau60;
 figure;
@@ -70,7 +141,7 @@ plot(x4,tcdf(x4,1));
 hold on;
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция распределения Коши N = 100');
+%title('Функция распределения Коши N = 100');
 
 vyb = cau100;
 figure;
@@ -80,8 +151,72 @@ plot(x4,tcdf(x4,1));
 hold on;
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция распределения Коши N = 100');
+%title('Функция распределения Коши N = 100');
 
+figure;
+plot(x4,plotnost(x4, cau20, 0.5));
+hold on;
+plot(x4,tpdf(x4,1));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, cau20, 1));
+hold on;
+plot(x4,tpdf(x4,1));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, cau20, 2));
+hold on;
+plot(x4,tpdf(x4,1));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, cau60, 0.5));
+hold on;
+plot(x4,tpdf(x4,1));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, cau60, 1));
+hold on;
+plot(x4,tpdf(x4,1));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, cau60, 2));
+hold on;
+plot(x4,tpdf(x4,1));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, cau100, 0.5));
+hold on;
+plot(x4,tpdf(x4,1));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, cau100, 1));
+hold on;
+plot(x4,tpdf(x4,1));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, cau100, 2));
+hold on;
+plot(x4,tpdf(x4,1));
+ylabel("f(x)");
+xlabel("x");
+%}
+%{
 lap20 = laprnd(20);
 lap60 = laprnd(60);
 lap100 = laprnd(100);
@@ -96,7 +231,7 @@ line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция распределения Лапласа N = 20');
+%title('Функция распределения Лапласа N = 20');
 
 vyb = lap60;
 figure;
@@ -108,7 +243,7 @@ line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция распределения Лапласа N = 60');
+%title('Функция распределения Лапласа N = 60');
 
 vyb = lap100;
 figure;
@@ -120,8 +255,72 @@ line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция распределения Лапласа N = 100');
+%title('Функция распределения Лапласа N = 100');
 
+figure;
+plot(x4,plotnost(x4, lap20, 0.5));
+hold on;
+plot(x4,lappdf(x4,odin,0));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, lap20, 1));
+hold on;
+plot(x4,lappdf(x4,odin,0));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, lap20, 2));
+hold on;
+plot(x4,lappdf(x4,odin,0));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, lap60, 0.5));
+hold on;
+plot(x4,lappdf(x4,odin,0));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, lap60, 1));
+hold on;
+plot(x4,lappdf(x4,odin,0));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, lap60, 2));
+hold on;
+plot(x4,lappdf(x4,odin,0));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, lap100, 0.5));
+hold on;
+plot(x4,lappdf(x4,odin,0));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, lap100, 1));
+hold on;
+plot(x4,lappdf(x4,odin,0));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, lap100, 2));
+hold on;
+plot(x4,lappdf(x4,odin,0));
+ylabel("f(x)");
+xlabel("x");
+%}
+%{
 poiss20 = poissrnd(10,1,20);
 poiss60 = poissrnd(10,1,60);
 poiss100 = poissrnd(10,1,100);
@@ -136,7 +335,7 @@ line([max(vyb),14],[1,1]);
 line([6,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([6 14])
-title('Функция распределения Пуассона N = 20');
+%title('Функция распределения Пуассона N = 20');
 
 vyb = poiss60;
 figure;
@@ -148,7 +347,7 @@ line([max(vyb),14],[1,1]);
 line([6,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([6 14])
-title('Функция распределения Пуассона N = 60');
+%title('Функция распределения Пуассона N = 60');
 
 vyb = poiss100;
 figure;
@@ -160,7 +359,71 @@ line([max(vyb),14],[1,1]);
 line([6,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([6 14])
-title('Функция распределения Пуассона N = 100');
+%title('Функция распределения Пуассона N = 100');
+
+figure;
+plot(6:0.1:14,plotnost(6:0.1:14, poiss20, 0.5));
+hold on;
+plot(px4,poisspdf(px4,10));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(6:0.1:14,plotnost(6:0.1:14, poiss20, 1));
+hold on;
+plot(px4,poisspdf(px4,10));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(6:0.1:14,plotnost(6:0.1:14, poiss20, 2));
+hold on;
+plot(px4,poisspdf(px4,10));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(6:0.1:14,plotnost(6:0.1:14, poiss60, 0.5));
+hold on;
+plot(px4,poisspdf(px4,10));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(6:0.1:14,plotnost(6:0.1:14, poiss60, 1));
+hold on;
+plot(px4,poisspdf(px4,10));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(6:0.1:14,plotnost(6:0.1:14, poiss60, 2));
+hold on;
+plot(px4,poisspdf(px4,10));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(6:0.1:14,plotnost(6:0.1:14, poiss100, 0.5));
+hold on;
+plot(px4,poisspdf(px4,10));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(6:0.1:14,plotnost(6:0.1:14, poiss100, 1));
+hold on;
+plot(px4,poisspdf(px4,10));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(6:0.1:14,plotnost(6:0.1:14, poiss100, 2));
+hold on;
+plot(px4,poisspdf(px4,10));
+ylabel("f(x)");
+xlabel("x");
+%}
 
 unif20 = unifrnd(-sqrt(3),sqrt(3),1,20);
 unif60 = unifrnd(-sqrt(3),sqrt(3),1,60);
@@ -176,7 +439,7 @@ line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция равномерного распределения N = 20');
+%title('Функция равномерного распределения N = 20');
 
 vyb = unif60;
 figure;
@@ -188,7 +451,7 @@ line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция равномерного распределения N = 60');
+%title('Функция равномерного распределения N = 60');
 
 vyb = unif100;
 figure;
@@ -200,8 +463,70 @@ line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция равномерного распределения N = 100');
-%}
+%title('Функция равномерного распределения N = 100');
+
+figure;
+plot(x4,plotnost(x4, unif20, 0.5));
+hold on;
+plot(x4,unifpdf(x4,-sqrt(3),sqrt(3)));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, unif20, 1));
+hold on;
+plot(x4,unifpdf(x4,-sqrt(3),sqrt(3)));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, unif20, 2));
+hold on;
+plot(x4,unifpdf(x4,-sqrt(3),sqrt(3)));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, unif60, 0.5));
+hold on;
+plot(x4,unifpdf(x4,-sqrt(3),sqrt(3)));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, unif60, 1));
+hold on;
+plot(x4,unifpdf(x4,-sqrt(3),sqrt(3)));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, unif60, 2));
+hold on;
+plot(x4,unifpdf(x4,-sqrt(3),sqrt(3)));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, unif100, 0.5));
+hold on;
+plot(x4,unifpdf(x4,-sqrt(3),sqrt(3)));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, unif100, 1));
+hold on;
+plot(x4,unifpdf(x4,-sqrt(3),sqrt(3)));
+ylabel("f(x)");
+xlabel("x");
+
+figure;
+plot(x4,plotnost(x4, unif100, 2));
+hold on;
+plot(x4,unifpdf(x4,-sqrt(3),sqrt(3)));
+ylabel("f(x)");
+xlabel("x");
 
 %{
 NormX1 = -2.698;
@@ -662,4 +987,19 @@ for i = 1:sz
     end
 end
 result = numberOfOutLine / sz;
+end
+
+function result = plotnost(x, arr, k)
+n = size(arr);
+n = n(2);
+h = k * (1.06*(findD(arr))^(0.5)*n^(-1/5));
+summa = 0;
+for i = 1:n
+    summa = summa + KCore((x-arr(i))/h);
+end
+result = summa/(n*h);
+end
+
+function result = KCore(u)
+result = (1/sqrt(2*pi))*exp(-(u.^2)/2);
 end
