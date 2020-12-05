@@ -3,11 +3,12 @@ size50 = 50;
 size1000 = 1000; 
 odin = 1/(2^(0.5));
 x = -4:0.1:4;
-
+x4 = -4:0.01:4;
+px4 = 6:1:14;
+%{
 norm20 = normrnd(0,1,[1,20]);
 norm60 = normrnd(0,1,[1,60]);
 norm100 = normrnd(0,1,[1,100]);
-x4 = -4:0.01:4;
 
 vyb = norm20;
 figure;
@@ -129,13 +130,78 @@ vyb = poiss20;
 figure;
 cdfplot(vyb);
 hold on;
-plot(x4,poisscdf(x4,10));
+plot(px4,poisscdf(px4,10));
+hold on;
+line([max(vyb),14],[1,1]);
+line([6,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([6 14])
+title('Функция распределения Пуассона N = 20');
+
+vyb = poiss60;
+figure;
+cdfplot(vyb);
+hold on;
+plot(px4,poisscdf(px4,10));
+hold on;
+line([max(vyb),14],[1,1]);
+line([6,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([6 14])
+title('Функция распределения Пуассона N = 60');
+
+vyb = poiss100;
+figure;
+cdfplot(vyb);
+hold on;
+plot(px4,poisscdf(px4,10));
+hold on;
+line([max(vyb),14],[1,1]);
+line([6,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([6 14])
+title('Функция распределения Пуассона N = 100');
+
+unif20 = unifrnd(-sqrt(3),sqrt(3),1,20);
+unif60 = unifrnd(-sqrt(3),sqrt(3),1,60);
+unif100 = unifrnd(-sqrt(3),sqrt(3),1,100);
+
+vyb = unif20;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,unifcdf(x4,-sqrt(3),sqrt(3)));
 hold on;
 line([max(vyb),4],[1,1]);
 line([-4,min(vyb)],[0,0]);
 ylim([-0.1 1.1])
 xlim([-4 4])
-title('Функция распределения Пуассона N = 20');
+title('Функция равномерного распределения N = 20');
+
+vyb = unif60;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,unifcdf(x4,-sqrt(3),sqrt(3)));
+hold on;
+line([max(vyb),4],[1,1]);
+line([-4,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция равномерного распределения N = 60');
+
+vyb = unif100;
+figure;
+cdfplot(vyb);
+hold on;
+plot(x4,unifcdf(x4,-sqrt(3),sqrt(3)));
+hold on;
+line([max(vyb),4],[1,1]);
+line([-4,min(vyb)],[0,0]);
+ylim([-0.1 1.1])
+xlim([-4 4])
+title('Функция равномерного распределения N = 100');
+%}
 
 %{
 NormX1 = -2.698;
