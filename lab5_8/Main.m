@@ -14,18 +14,22 @@ for n = 1:3
         for j = 1:1000
             v = mvnrnd(mu, [1 p(i); p(i) 1], sizes(n))';
             R = [R r(v)];
-            R_q = [R_q r_Q(v)];
+            R_q = [R_q r_Q(v)];   
+            R_s = [R_s r_S(v)];       
         end
         disp("----------------");
         disp("Size:  " + sizes(n) + "    P:  " +p(i));
         disp("E(z):")
         disp("r:   " + E(R));
+        disp("r_s:   " + E(R_s));
         disp("r_q:   " + E(R_q));
         disp("E(z^2):")
         disp("r:   " + E(R.^2));
+        disp("r_s:   " + E(R_s.^2));
         disp("r_q:   " + E(R_q.^2));
         disp("D(z):")
         disp("r:   " + D(R));
+        disp("r_s:   " + D(R_s));
         disp("r_q:   " + D(R_q));
     end
 end
@@ -99,9 +103,25 @@ end
 result = ((N(1)+N(3))-(N(2)+N(4)))/n;
 end
 
-function result = r_S(arr)
-sz = size(arr);
-sz = sz(2);
-result = 0;
+function result = r_S(arr2D)
+n = size(arr2D);
+n = n(2);
+X = arr2D(1,:);
+Y = arr2D(2,:);
+u = (n+1)/2;
+res = 0;
+RangX = zeros(1,n);
+RangY = zeros(1,n);
+for i = 1:n
+    RangX(find(X==min(X))) = i;
+    X(find(X==min(X))) = 1000;
+    RangY(find(Y==min(Y))) = i;
+    Y(find(Y==min(Y))) = 1000;
+end
+for i = 1:n
+    res = res + (RangX(i)-u)*(RangY(i)-u);
+end
+res = res / n;
+result = (res / (sqrt(D(RangX)*D(RangY))));
 end
 
