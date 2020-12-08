@@ -3,9 +3,98 @@ sizes = [20 60 100];
 p = [0 0.5 0.9];
 mu = [0 0];
 disp("Script begin");
-%plot(R(:,1),R(:,2),'+')
-%ezplot('x^2 + y^2 = 6.25'); axis equal; hold on
 
+R = mvnrnd(mu, [1 0; 0 1], 20);
+figure;
+plot(R(:,1),R(:,2),'+');
+ylim([-4 4])
+xlim([-4 4])
+hold on;
+f=ezplot('x^2 + y^2 = 6.25'); 
+set(f, 'LineWidth', 2)
+title("");
+
+R = mvnrnd(mu, [1 0.5; 0.5 1], 20);
+figure;
+plot(R(:,1),R(:,2),'+');
+ylim([-4 4])
+xlim([-4 4])
+hold on;
+f=ezplot('x^2 -x*y + y^2 = 6.25'); 
+set(f, 'LineWidth', 2)
+title("");
+
+R = mvnrnd(mu, [1 0.9; 0.9 1], 20);
+figure;
+plot(R(:,1),R(:,2),'+');
+ylim([-4 4])
+xlim([-4 4])
+hold on;
+f=ezplot('x^2 - 1.8*x*y + y^2 = 2'); 
+set(f, 'LineWidth', 2)
+title("");
+
+R = mvnrnd(mu, [1 0; 0 1], 60);
+figure;
+plot(R(:,1),R(:,2),'+');
+ylim([-4 4])
+xlim([-4 4])
+hold on;
+f=ezplot('x^2 + y^2 = 6.25'); 
+set(f, 'LineWidth', 2)
+title("");
+
+R = mvnrnd(mu, [1 0.5; 0.5 1], 60);
+figure;
+plot(R(:,1),R(:,2),'+');
+ylim([-4 4])
+xlim([-4 4])
+hold on;
+f=ezplot('x^2 -x*y + y^2 = 6.25'); 
+set(f, 'LineWidth', 2)
+title("");
+
+R = mvnrnd(mu, [1 0.9; 0.9 1], 60);
+figure;
+plot(R(:,1),R(:,2),'+');
+ylim([-4 4])
+xlim([-4 4])
+hold on;
+f=ezplot('x^2 - 1.8*x*y + y^2 = 2'); 
+set(f, 'LineWidth', 2)
+title("");
+
+R = mvnrnd(mu, [1 0; 0 1], 100);
+figure;
+plot(R(:,1),R(:,2),'+');
+ylim([-4 4])
+xlim([-4 4])
+hold on;
+f=ezplot('x^2 + y^2 = 6.25'); 
+set(f, 'LineWidth', 2)
+title("");
+
+R = mvnrnd(mu, [1 0.5; 0.5 1], 100);
+figure;
+plot(R(:,1),R(:,2),'+');
+ylim([-4 4])
+xlim([-4 4])
+hold on;
+f=ezplot('x^2 -x*y + y^2 = 6.25'); 
+set(f, 'LineWidth', 2)
+title("");
+
+R = mvnrnd(mu, [1 0.9; 0.9 1], 100);
+figure;
+plot(R(:,1),R(:,2),'+');
+ylim([-4 4])
+xlim([-4 4])
+hold on;
+f=ezplot('x^2 - 1.8*x*y + y^2 = 2'); 
+set(f, 'LineWidth', 2)
+title("");
+
+%{
 for n = 1:3
     for i = 1:3
         R = [];
@@ -19,21 +108,32 @@ for n = 1:3
         end
         disp("----------------");
         disp("Size:  " + sizes(n) + "    P:  " +p(i));
-        disp("E(z):")
-        disp("r:   " + E(R));
-        disp("r_s:   " + E(R_s));
-        disp("r_q:   " + E(R_q));
-        disp("E(z^2):")
-        disp("r:   " + E(R.^2));
-        disp("r_s:   " + E(R_s.^2));
-        disp("r_q:   " + E(R_q.^2));
-        disp("D(z):")
-        disp("r:   " + D(R));
-        disp("r_s:   " + D(R_s));
-        disp("r_q:   " + D(R_q));
+        disp("    " + " R " + "       R_s     " + "R_q");
+        disp("E(z)" + " & " + E(R) + " & " + E(R_s) + " & " + E(R_q));
+        disp("E(z^2)" + " & " + E(R.^2) + " & " + E(R_s.^2) + " & " + E(R_q.^2));
+        disp("(z)" + " & " + D(R) + " & " + D(R_s) + " & " + D(R_q));
     end
 end
 
+
+for n = 1:3
+        R = [];
+        R_q = [];
+        R_s = [];
+        for j = 1:1000
+            v = MvNormRnd(sizes(n));
+            R = [R r(v)];
+            R_q = [R_q r_Q(v)];   
+            R_s = [R_s r_S(v)];       
+        end
+        disp("----------------");
+        disp("Size:  " + sizes(n) + "    P:  " +p(i));
+        disp("    " + " R " + "       R_s     " + "R_q");
+        disp("E(z)" + " & " + E(R) + " & " + E(R_s) + " & " + E(R_q));
+        disp("E(z^2)" + " & " + E(R.^2) + " & " + E(R_s.^2) + " & " + E(R_q.^2));
+        disp("(z)" + " & " + D(R) + " & " + D(R_s) + " & " + D(R_q));
+end
+%}    
 function Average = E(arr)
 sz = size(arr);
 sz = sz(2);
@@ -125,3 +225,38 @@ res = res / n;
 result = (res / (sqrt(D(RangX)*D(RangY))));
 end
 
+function vyborka = MvNormRnd(size) %2d 
+i = 0;
+res = [];
+max = 0.3302;
+while i < size
+    x = 5*[rand rand]-2.5;
+    P = NormPdf(x) / max;
+    if rand < P
+        res = [res x'];
+        i = i + 1;
+    end   
+end
+vyborka = res;
+%{
+P1 = [ 1 0.9; 0.9 1];
+P2 = [ sqrt(10) -0.9; -0.9 sqrt(10)];
+MU = [0 0];
+res = [];
+for i = 1:size
+    if (rand < 0.9)
+        res = [res mvnrnd(MU, P1, 1)'];
+    else
+        res = [res mvnrnd(MU, P2, 1)'];
+    end
+end
+vyborka = res;
+%}
+end
+
+function probability = NormPdf(X) %2d 
+p1 = [ 1 0.9; 0.9 1];
+p2 = [ (10) -0.9; -0.9 (10)];
+mu = [0 0];
+probability = 0.9*mvnpdf(X,mu,p1)+0.1*mvnpdf(X,mu,p2);
+end
