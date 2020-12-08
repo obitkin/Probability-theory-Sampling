@@ -1,0 +1,107 @@
+%Lab5
+sizes = [20 60 100];
+p = [0 0.5 0.9];
+mu = [0 0];
+disp("Script begin");
+%plot(R(:,1),R(:,2),'+')
+%ezplot('x^2 + y^2 = 6.25'); axis equal; hold on
+
+for n = 1:3
+    for i = 1:3
+        R = [];
+        R_q = [];
+        R_s = [];
+        for j = 1:1000
+            v = mvnrnd(mu, [1 p(i); p(i) 1], sizes(n))';
+            R = [R r(v)];
+            R_q = [R_q r_Q(v)];
+        end
+        disp("----------------");
+        disp("Size:  " + sizes(n) + "    P:  " +p(i));
+        disp("E(z):")
+        disp("r:   " + E(R));
+        disp("r_q:   " + E(R_q));
+        disp("E(z^2):")
+        disp("r:   " + E(R.^2));
+        disp("r_q:   " + E(R_q.^2));
+        disp("D(z):")
+        disp("r:   " + D(R));
+        disp("r_q:   " + D(R_q));
+    end
+end
+
+function Average = E(arr)
+sz = size(arr);
+sz = sz(2);
+Average = sum(arr)/sz;
+end
+
+function dispersya = D(arr)
+sz = size(arr);
+sz = sz(2);
+srednee = E(arr);
+summa = 0;
+for i = 1:sz
+    summa = summa + (arr(i)-srednee)^2;
+end
+dispersya = summa / sz;
+end
+
+function res1 = median(arr)
+sz = size(arr);
+sz = sz(2);
+if mod(sz, 2) == 0
+    resultat = (arr(sz/2) + arr(sz/2+1)) / 2;
+else
+    resultat = arr((sz+1)/2);
+end
+res1 = resultat;
+end
+
+function result = r(arr2D) % arr 2*100
+n = size(arr2D);
+n = n(2);
+X = arr2D(1,:);
+Y = arr2D(2,:);
+x_srendee = E(X);
+y_srendee = E(Y);
+res = 0;
+for i = 1:n
+    res = res + (X(i)-x_srendee)*(Y(i)-y_srendee);
+end
+res = res / n;
+result = res / sqrt(D(X)*D(Y));
+end
+
+function result = r_Q(arr2D)
+N = [0 0 0 0];
+n = size(arr2D);
+n = n(2);
+X = arr2D(1,:);
+Y = arr2D(2,:);
+medX = median(X);
+medY = median(Y);
+for i = 1:n
+    if (X(i) >= medX) 
+        if (Y(i) >= medY)
+            N(1) = N(1)+1;
+        else
+            N(4) = N(4)+1;
+        end
+    else 
+        if (Y(i) >= medY)
+            N(2) = N(2)+1;
+        else
+            N(3) = N(3)+1;
+        end   
+    end
+end
+result = ((N(1)+N(3))-(N(2)+N(4)))/n;
+end
+
+function result = r_S(arr)
+sz = size(arr);
+sz = sz(2);
+result = 0;
+end
+
