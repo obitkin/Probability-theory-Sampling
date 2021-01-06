@@ -138,6 +138,7 @@ end
 %}
 
 %Lab6
+y_orig = @(c) (2+2*c);
 %Выборка без возмущений
 x = -1.8:0.2:2;
 e = normrnd(0,1,[1,20]);
@@ -148,29 +149,63 @@ yy = y.*y;
 xy = x.*y;
 B1 = (E(xy)-E(x)*E(y))/(E(xx)-(E(x))^2);
 B0 = E(y) - E(x)*B1;
+disp("МНК без возмущений");
+disp("B0= " + B0 + "  B1= " + B1);
 %МНМ
 errfcn = @(b) sum(abs(y-b(1)-b(2)*x));
 x0 = [0,0];
 B = fminsearch(errfcn,x0);
+disp("МНМ без возмущений");
+disp("B0= " + B(1) + "  B1= " + B(2));
+%График
+y_LS = @(x) B0 + B1*x; %МНК
+y_LAD = @(x) B(1) + B(2)*x; %МНМ
 
 figure;
-x = linspace(0,10);
-y1 = sin(x);
-y2 = sin(0.9*x);
-y3 = sin(0.8*x);
-y4 = sin(0.7*x);
-y5 = sin(0.6*x);
-y6 = sin(0.5*x);
-
-plot(x,y1,'DisplayName','sin(x)')
+x = linspace(-1.8,2);
+plot(x,y_orig(x),'DisplayName','Модель','LineWidth', 2)
 hold on
-plot(x,y2,'DisplayName','sin(0.9x)')
-plot(x,y3,'DisplayName','sin(0.8x)')
-plot(x,y4,'DisplayName','sin(0.7x)')
-plot(x,y5,'DisplayName','sin(0.6x)')
-plot(x,y6,'DisplayName','sin(0.5x)')
+plot(x,y_LS(x),'DisplayName','МНК','LineWidth', 2)
+plot(x,y_LAD(x),'DisplayName','МНМ','LineWidth', 2)
+plot(-1.8:0.2:2,y,'o','DisplayName','Выборка','LineWidth', 2)
 hold off
-legend('Location','northwest')
+xlim([-2, 2.2]);
+legend('Location','northwest');
+
+%Выборка c возмущением
+x = -1.6:0.2:1.8;
+e = normrnd(0,1,[1,18]);
+y = 2 + 2*x + e;
+x = [-1.8 x 2];
+y = [2+2*(-1.8)+normrnd(0,1,[1,1])+10 y 2+2*(2)+normrnd(0,1,[1,1])-10];
+%МНК
+xx = x.*x;
+yy = y.*y;
+xy = x.*y;
+B1 = (E(xy)-E(x)*E(y))/(E(xx)-(E(x))^2);
+B0 = E(y) - E(x)*B1;
+disp("МНК с возмущением");
+disp("B0= " + B0 + "  B1= " + B1);
+%МНМ
+errfcn = @(b) sum(abs(y-b(1)-b(2)*x));
+x0 = [0,0];
+B = fminsearch(errfcn,x0);
+disp("МНМ с возмущением");
+disp("B0= " + B(1) + "  B1= " + B(2));
+%График
+y_LS = @(x) B0 + B1*x; %МНК
+y_LAD = @(x) B(1) + B(2)*x; %МНМ
+
+figure;
+x = linspace(-1.8,2);
+plot(x,y_orig(x),'DisplayName','Модель','LineWidth', 2)
+hold on
+plot(x,y_LS(x),'DisplayName','МНК','LineWidth', 2)
+plot(x,y_LAD(x),'DisplayName','МНМ','LineWidth', 2)
+plot(-1.8:0.2:2,y,'o','DisplayName','Выборка','LineWidth', 2)
+hold off
+xlim([-2, 2.2]);
+legend('Location','northwest');
 
 function Average = E(arr)
 sz = size(arr);
