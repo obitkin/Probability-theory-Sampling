@@ -1,16 +1,17 @@
 %Lab5
+%{
 sizes = [20 60 100];
 p = [0 0.5 0.9];
 mu = [0 0];
 disp("Script begin");
-
+%{
 R = mvnrnd(mu, [1 0; 0 1], 20);
 figure;
 plot(R(:,1),R(:,2),'+');
 ylim([-4 4])
 xlim([-4 4])
 hold on;
-f=ezplot('x^2 + y^2 = 6.25'); 
+f=ezplot('x^2 + y^2 =4'); 
 set(f, 'LineWidth', 2)
 title("");
 
@@ -20,17 +21,17 @@ plot(R(:,1),R(:,2),'+');
 ylim([-4 4])
 xlim([-4 4])
 hold on;
-f=ezplot('x^2 -x*y + y^2 = 6.25'); 
+f=ezplot('x^2 -x*y + y^2 = 4'); 
 set(f, 'LineWidth', 2)
 title("");
 
 R = mvnrnd(mu, [1 0.9; 0.9 1], 20);
 figure;
 plot(R(:,1),R(:,2),'+');
-ylim([-4 4])
-xlim([-4 4])
+ylim([-5 5])
+xlim([-5 5])
 hold on;
-f=ezplot('x^2 - 1.8*x*y + y^2 = 2'); 
+f=ezplot('x^2 - 1.8*x*y + y^2 = 4'); 
 set(f, 'LineWidth', 2)
 title("");
 
@@ -40,7 +41,7 @@ plot(R(:,1),R(:,2),'+');
 ylim([-4 4])
 xlim([-4 4])
 hold on;
-f=ezplot('x^2 + y^2 = 6.25'); 
+f=ezplot('x^2 + y^2 = 4'); 
 set(f, 'LineWidth', 2)
 title("");
 
@@ -50,19 +51,20 @@ plot(R(:,1),R(:,2),'+');
 ylim([-4 4])
 xlim([-4 4])
 hold on;
-f=ezplot('x^2 -x*y + y^2 = 6.25'); 
+f=ezplot('x^2 -x*y + y^2 = 4'); 
 set(f, 'LineWidth', 2)
 title("");
 
 R = mvnrnd(mu, [1 0.9; 0.9 1], 60);
 figure;
 plot(R(:,1),R(:,2),'+');
-ylim([-4 4])
-xlim([-4 4])
+ylim([-5 5])
+xlim([-5 5])
 hold on;
-f=ezplot('x^2 - 1.8*x*y + y^2 = 2'); 
+f=ezplot('x^2 - 1.8*x*y + y^2 = 4'); 
 set(f, 'LineWidth', 2)
 title("");
+%}
 
 R = mvnrnd(mu, [1 0; 0 1], 100);
 figure;
@@ -70,7 +72,7 @@ plot(R(:,1),R(:,2),'+');
 ylim([-4 4])
 xlim([-4 4])
 hold on;
-f=ezplot('x^2 + y^2 = 6.25'); 
+f=ezplot('x^2 + y^2 = 4'); 
 set(f, 'LineWidth', 2)
 title("");
 
@@ -80,20 +82,20 @@ plot(R(:,1),R(:,2),'+');
 ylim([-4 4])
 xlim([-4 4])
 hold on;
-f=ezplot('x^2 -x*y + y^2 = 6.25'); 
+f=ezplot('x^2 -x*y + y^2 =4'); 
 set(f, 'LineWidth', 2)
 title("");
 
 R = mvnrnd(mu, [1 0.9; 0.9 1], 100);
 figure;
 plot(R(:,1),R(:,2),'+');
-ylim([-4 4])
-xlim([-4 4])
+ylim([-5 5])
+xlim([-5 5])
 hold on;
-f=ezplot('x^2 - 1.8*x*y + y^2 = 2'); 
+f=ezplot('x^2 - 1.8*x*y + y^2 = 4'); 
 set(f, 'LineWidth', 2)
 title("");
-
+%}
 %{
 for n = 1:3
     for i = 1:3
@@ -133,7 +135,43 @@ for n = 1:3
         disp("E(z^2)" + " & " + E(R.^2) + " & " + E(R_s.^2) + " & " + E(R_q.^2));
         disp("(z)" + " & " + D(R) + " & " + D(R_s) + " & " + D(R_q));
 end
-%}    
+%}
+
+%Lab6
+%Выборка без возмущений
+x = -1.8:0.2:2;
+e = normrnd(0,1,[1,20]);
+y = 2 + 2*x + e;
+%МНК
+xx = x.*x;
+yy = y.*y;
+xy = x.*y;
+B1 = (E(xy)-E(x)*E(y))/(E(xx)-(E(x))^2);
+B0 = E(y) - E(x)*B1;
+%МНМ
+errfcn = @(b) sum(abs(y-b(1)-b(2)*x));
+x0 = [0,0];
+B = fminsearch(errfcn,x0);
+
+figure;
+x = linspace(0,10);
+y1 = sin(x);
+y2 = sin(0.9*x);
+y3 = sin(0.8*x);
+y4 = sin(0.7*x);
+y5 = sin(0.6*x);
+y6 = sin(0.5*x);
+
+plot(x,y1,'DisplayName','sin(x)')
+hold on
+plot(x,y2,'DisplayName','sin(0.9x)')
+plot(x,y3,'DisplayName','sin(0.8x)')
+plot(x,y4,'DisplayName','sin(0.7x)')
+plot(x,y5,'DisplayName','sin(0.6x)')
+plot(x,y6,'DisplayName','sin(0.5x)')
+hold off
+legend('Location','northwest')
+
 function Average = E(arr)
 sz = size(arr);
 sz = sz(2);
@@ -225,6 +263,11 @@ res = res / n;
 result = (res / (sqrt(D(RangX)*D(RangY))));
 end
 
+function result = r_qq(x,y)
+medY = median(y);
+medX = median(x);
+end
+
 function vyborka = MvNormRnd(size) %2d 
 i = 0;
 res = [];
@@ -256,7 +299,7 @@ end
 
 function probability = NormPdf(X) %2d 
 p1 = [ 1 0.9; 0.9 1];
-p2 = [ (10) -0.9; -0.9 (10)];
+p2 = [ (10) 0.9; 0.9 (10)];
 mu = [0 0];
-probability = 0.9*mvnpdf(X,mu,p1)+0.1*mvnpdf(X,mu,p2);
+probability = 0.95*mvnpdf(X,mu,p1)+0.05*mvnpdf(X,mu,p2);
 end
