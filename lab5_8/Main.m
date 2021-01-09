@@ -215,13 +215,15 @@ disp("Norm, n = " + n);
 norm = sort(normrnd(0,1,[1,n]));
 mu = E(norm);
 sigma = sqrt(D(norm));
+disp("mu = " + mu);
+disp("sigma = " + sigma);
 %Критерий Хи-квадрат
 k = ceil(1.72*((n)^(1/3)));
 delta = -2*sigma+mu:4*sigma/(k-2):sigma*2+mu;
 delta = [-Inf delta +Inf];
 p = zeros(1,k);
 for i = 1:k
-    disp("i= " + i + "   (" + delta(i) + " , " + delta(i+1) + ")");
+    disp("i= " + i + "   (" + round(delta(i)*100)/100 + " , " + round(delta(i+1)*100)/100 + ")");
     p(i) = normcdf(delta(i+1),mu,sigma) - normcdf(delta(i),mu,sigma);
 end
 n_i = FindNI(norm, delta);
@@ -240,7 +242,7 @@ delta = -2*sigma+mu:4*sigma/(k-2):sigma*2+mu;
 delta = [-Inf delta +Inf];
 p = zeros(1,k);
 for i = 1:k
-    disp("i= " + i + "   (" + delta(i) + " , " + delta(i+1) + ")");
+    disp("i= " + i + "   (" + round(delta(i)*100)/100 + " , " + round(delta(i+1)*100)/100 + ")");
     p(i) = lapcdf(delta(i+1),sigma,mu) - lapcdf(delta(i),sigma,mu);
 end
 n_i = FindNI(norm, delta);
@@ -254,11 +256,11 @@ mu = E(norm);
 sigma = sqrt(D(norm));
 %Критерий Хи-квадрат
 k = ceil(1.72*((n)^(1/3)));
-delta = -1*sigma+mu:2*sigma/(k-2):sigma*1+mu;
+delta = -1.2*sigma+mu:2*sigma/(k-2):sigma*1.2+mu;
 delta = [-Inf delta +Inf];
 p = zeros(1,k);
 for i = 1:k
-    disp("i= " + i + "   (" + delta(i) + " , " + delta(i+1) + ")");
+    disp("i= " + i + "   (" + round(delta(i)*100)/100 + " , " + round(delta(i+1)*100)/100 + ")");
     p(i) = unifcdf(delta(i+1),-sqrt(3),sqrt(3)) - unifcdf(delta(i),-sqrt(3),sqrt(3));
 end
 n_i = FindNI(norm, delta);
@@ -318,7 +320,7 @@ n_iMinusNP = n_i - np;
 res = [];
 for i = 1:sz
     res = [res n_iMinusNP(i)*n_iMinusNP(i)/np(i)];
-    disp("n_i=" + n_i(i) + "   p_i=" + p(i) + "   np=" + np(i) + "   n_iMinusNP=" + n_iMinusNP(i) +"   ()^2=" + res(i));
+    disp("n_i=" + round(n_i(i)*100)/100 + "   p_i=" + p(i) + "   np=" + round(np(i)*100)/100 + "   n_iMinusNP=" + round(n_iMinusNP(i)*100)/100 +"   ()^2=" + round(res(i)*100)/100);
 end
 Xi2 = sum(res);
 end
