@@ -138,6 +138,7 @@ end
 %}
 
 %Lab6
+%{
 y_orig = @(c) (2+2*c);
 %Выборка без возмущений
 x = -1.8:0.2:2;
@@ -205,7 +206,122 @@ plot(x,y_LAD(x),'DisplayName','МНМ','LineWidth', 2)
 plot(-1.8:0.2:2,y,'o','DisplayName','Выборка','LineWidth', 2)
 hold off
 xlim([-2, 2.2]);
-legend('Location','northwest');
+legend('Location','south');
+%}
+
+%Lab7
+n = 100;
+disp("Norm, n = " + n);
+norm = sort(normrnd(0,1,[1,n]));
+mu = E(norm);
+sigma = sqrt(D(norm));
+%Критерий Хи-квадрат
+k = ceil(1.72*((n)^(1/3)));
+delta = -2*sigma+mu:4*sigma/(k-2):sigma*2+mu;
+delta = [-Inf delta +Inf];
+p = zeros(1,k);
+for i = 1:k
+    disp("i= " + i + "   (" + delta(i) + " , " + delta(i+1) + ")");
+    p(i) = normcdf(delta(i+1),mu,sigma) - normcdf(delta(i),mu,sigma);
+end
+n_i = FindNI(norm, delta);
+Xi = makeTable(n,p,n_i);
+disp("Xi2 = " + Xi);
+
+
+n = 20;
+disp("Laplas, n = " + n);
+norm = sort(laprnd(n, 1, 0));
+mu = E(norm);
+sigma = sqrt(D(norm));
+%Критерий Хи-квадрат
+k = ceil(1.72*((n)^(1/3)));
+delta = -2*sigma+mu:4*sigma/(k-2):sigma*2+mu;
+delta = [-Inf delta +Inf];
+p = zeros(1,k);
+for i = 1:k
+    disp("i= " + i + "   (" + delta(i) + " , " + delta(i+1) + ")");
+    p(i) = lapcdf(delta(i+1),sigma,mu) - lapcdf(delta(i),sigma,mu);
+end
+n_i = FindNI(norm, delta);
+Xi = makeTable(n,p,n_i);
+disp("Xi2 = " + Xi);
+
+n = 20;
+disp("Ravno, n = " + n);
+norm = sort(unifrnd(-sqrt(3),sqrt(3),1,n));
+mu = E(norm);
+sigma = sqrt(D(norm));
+%Критерий Хи-квадрат
+k = ceil(1.72*((n)^(1/3)));
+delta = -1*sigma+mu:2*sigma/(k-2):sigma*1+mu;
+delta = [-Inf delta +Inf];
+p = zeros(1,k);
+for i = 1:k
+    disp("i= " + i + "   (" + delta(i) + " , " + delta(i+1) + ")");
+    p(i) = unifcdf(delta(i+1),-sqrt(3),sqrt(3)) - unifcdf(delta(i),-sqrt(3),sqrt(3));
+end
+n_i = FindNI(norm, delta);
+Xi = makeTable(n,p,n_i);
+disp("Xi2 = " + Xi);
+
+
+function znach = lapcdf(x, a, b)
+sz = size(x);
+sz = sz(2);
+res = [];
+for i = 1:sz
+    if (x(i) < b)
+        res = [res (1/2)*exp(a*(x(i)-b))];
+    else
+        res = [res 1-(1/2)*exp((-a)*(x(i)-b))];
+    end
+end
+znach = res;
+end
+
+function res = laprnd(size, a, b)
+odin2 = a;
+i = 1;
+result = [];
+arrOfRand = rand(1,size+1);
+while i < (size + 1)
+    result = [result b + (1/odin2)*log((arrOfRand(i)/(arrOfRand(i+1))))];
+    i = i + 1;
+end
+res = result;
+end
+
+
+function res = FindNI(x, delta)
+szX = size(x);
+szDelta = size(delta);
+szX = szX(2);
+szDelta = szDelta(2)-1;
+result = zeros(1,szDelta);
+for i = 1:szX
+    for j = 1:szDelta
+        if(x(i) <= delta(j+1) && x(i) > delta(j))
+            result(j) = result(j)+1;
+            break;
+        end
+    end
+end
+res = result;
+end
+
+function Xi2 = makeTable(n, p, n_i)
+sz = size(n_i);
+sz = sz(2);
+np = p .* n;
+n_iMinusNP = n_i - np;
+res = [];
+for i = 1:sz
+    res = [res n_iMinusNP(i)*n_iMinusNP(i)/np(i)];
+    disp("n_i=" + n_i(i) + "   p_i=" + p(i) + "   np=" + np(i) + "   n_iMinusNP=" + n_iMinusNP(i) +"   ()^2=" + res(i));
+end
+Xi2 = sum(res);
+end
 
 function Average = E(arr)
 sz = size(arr);
