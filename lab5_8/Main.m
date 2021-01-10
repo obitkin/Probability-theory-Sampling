@@ -210,6 +210,7 @@ legend('Location','south');
 %}
 
 %Lab7
+%{
 n = 100;
 disp("Norm, n = " + n);
 norm = sort(normrnd(0,1,[1,n]));
@@ -266,7 +267,73 @@ end
 n_i = FindNI(norm, delta);
 Xi = makeTable(n,p,n_i);
 disp("Xi2 = " + Xi);
+%}
 
+%Lab8
+n = 20;
+norm = normrnd(0,1,[1,n]);
+aver = E(norm);
+s = sqrt(D(norm));
+
+disp("Хи-квадрат и метод Стьюдента N = " + n);
+%Параметр положения M
+M_left = aver - s * 2.0930 / sqrt(n-1); %t_{1-0.05/2}(19) = 2.0930
+M_right = aver + s * 2.0930 / sqrt(n-1);
+%Параметр масшатба Sigma
+Sigma_left = s * sqrt(n) / sqrt(32.8523); %x^2_{0.975}(19)
+Sigma_right = s * sqrt(n) / sqrt(8.9065); %x^2_{0.025}(19)
+disp("M_left= " + M_left + "  M_right= " + M_right);
+disp("Sigma_left= " + Sigma_left + "  Sigma_right= " + Sigma_right);
+
+disp("Асимптотические оценки N = " + n);
+%Параметр положения M
+M_left = aver - s * 1.95996 / sqrt(n); %u_{1-0.05/2} = 1.95996
+M_right = aver + s * 1.95996 / sqrt(n);
+%Параметр масшатба Sigma
+U = 1.95996 * sqrt((getE(norm)+2)/n);
+Sigma_left = s*(1 + U)^(-0.5);
+Sigma_right = s*(1 - U)^(-0.5);
+disp("M_left= " + M_left + "  M_right= " + M_right);
+disp("Sigma_left= " + Sigma_left + "  Sigma_right= " + Sigma_right);
+
+n = 100;
+norm = normrnd(0,1,[1,n]);
+aver = E(norm);
+s = sqrt(D(norm));
+
+disp("Хи-квадрат и метод Стьюдента N = " + n);
+%Параметр положения M
+M_left = aver - s * 1.98 / sqrt(n-1); %t_{1-0.05/2}(99) = 1.98
+M_right = aver + s * 1.98 / sqrt(n-1);
+%Параметр масшатба Sigma
+Sigma_left = s * sqrt(n) / sqrt(128.42198); %x^2_{0.975}(99)
+Sigma_right = s * sqrt(n) / sqrt(73.3610); %x^2_{0.025}(99)
+disp("M_left= " + M_left + "  M_right= " + M_right);
+disp("Sigma_left= " + Sigma_left + "  Sigma_right= " + Sigma_right);
+
+disp("Асимптотические оценки N = " + n);
+%Параметр положения M
+M_left = aver - s * 1.95996 / sqrt(n); %u_{1-0.05/2} = 1.95996
+M_right = aver + s * 1.95996 / sqrt(n);
+%Параметр масшатба Sigma
+U = 1.95996 * sqrt((getE(norm)+2)/n);
+Sigma_left = s*(1 + U)^(-0.5);
+Sigma_right = s*(1 - U)^(-0.5);
+disp("M_left= " + M_left + "  M_right= " + M_right);
+disp("Sigma_left= " + Sigma_left + "  Sigma_right= " + Sigma_right);
+
+function e = getE(arr)
+sz = size(arr);
+n = sz(2);
+s4 = (D(arr))^2;
+summa = 0;
+aver = E(arr);
+for i = 1:n
+    summa = summa + (arr(i)-aver)^4;
+end
+summa = summa / n;
+e = summa/s4 - 3;
+end
 
 function znach = lapcdf(x, a, b)
 sz = size(x);
